@@ -7,11 +7,11 @@
   <title>Document</title>
   <script src="all_wordle.js"></script>
 </head>
+
 <body>
   <button id="guess-button">Guess a wordle word!</button>
   <div id="guess-list"></div>
 </body>
-
   
 <script>
   function randomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -50,24 +50,27 @@
       return noDuplicateLetters;
     })
 
+    console.log('remainingWords length', remainingWords.length);
+
     let guess;
     if (remainingWords.length > 0) {
-      guess = randomElement(remainingWords)
-    }
-
-    if (guess) {
+      guess = randomElement(remainingWords);
       guessedWords.push(guess);
-      const guessElement = document.createElement('p')
+      const guessElement = document.createElement('p');
       const guessText = document.createTextNode(guess);
       guessElement.appendChild(guessText);
-      guessList.appendChild(guessElement)
+      guessList.appendChild(guessElement);
+    } else if (guessedWords[guessedWords.length-1] !== 'done') {
+      guessedWords.push('done');
+      const doneElement = document.createElement('p');
+      const doneText = document.createTextNode('No more words without letter duplication');
+      doneElement.appendChild(doneText);
+      guessList.appendChild(doneElement);
     }
 
     console.log('guess', guess);
     console.log('guessedWords', guessedWords);
   }
-
 </script>
-
 
 </html>
