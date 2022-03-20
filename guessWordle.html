@@ -16,13 +16,6 @@
 <script>
   function randomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
     
-  const guessButton = document.getElementById('guess');
-  guessButton.addEventListener('click', guessWordWithNewLetters);
-  
-  const guessedWords = [];
-
-  let remainingWords = [...allWords];
-
   function wordHasRepeatedLetters(word) {
     let hasRepeats = false;
     const letters = [];
@@ -32,6 +25,19 @@
     })
     return hasRepeats;
   }
+
+  const guessButton = document.getElementById('guess');
+  guessButton.addEventListener('click', guessWordWithNewLetters);
+
+  const allWordsWithNoRepeatedLetters = [];
+  allWords.forEach(function(e) {
+    if (!wordHasRepeatedLetters(e)) allWordsWithNoRepeatedLetters.push(e);
+  })
+  console.log('allWordsWithNoRepeatedLetters', allWordsWithNoRepeatedLetters);
+
+  let remainingWords = [...allWordsWithNoRepeatedLetters];
+
+  const guessedWords = [];
 
   function guessWordWithNewLetters() {
     const guessedLetters = guessedWords.join('').split('');
@@ -49,10 +55,7 @@
 
     let word;
     if (remainingWords.length > 0) {
-      do {
-        // program can hang, betcha it's this like if there are only words with duplicate letters left
-        word = randomElement(remainingWords)
-      } while (wordHasRepeatedLetters(word))
+      word = randomElement(remainingWords)
     }
 
     if (word) {
