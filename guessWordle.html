@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="all_wordle.js"></script>
+</head>
+<body>
+  <button id="guess">Guess a wordle word!</button>
+  <div id="guess-list"></div>
+</body>
+
+  
+<script>
+  function randomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    
+  const guessButton = document.getElementById('guess');
+  guessButton.addEventListener('click', guessWordWithNewLetters);
+  
+  const guessedWords = [];
+
+  let remainingWords = [...allWords];
+
+  function wordHasRepeatedLetters(word) {
+    let hasRepeats = false;
+    const letters = [];
+    word.split('').forEach(function(e) {
+      if (letters.includes(e)) hasRepeats = true;
+      letters.push(e);
+    })
+    return hasRepeats;
+  }
+
+  function guessWordWithNewLetters() {
+    const guessedLetters = guessedWords.join('').split('');
+
+    remainingWords = remainingWords.filter(function(e) {
+      let noDuplicateLetters = true;
+      e.split('').forEach(function(letter) {
+        if (guessedLetters.includes(letter)) noDuplicateLetters = false;
+      })
+      return noDuplicateLetters;
+    })
+
+    // console.log('remainingWords length', remainingWords.length);
+    // console.log('remainingWords', remainingWords);
+
+    let word;
+    if (remainingWords.length > 0) {
+      do {
+        // program can hang, betcha it's this like if there are only words with duplicate letters left
+        word = randomElement(remainingWords)
+      } while (wordHasRepeatedLetters(word))
+    }
+
+    if (word) {
+      guessedWords.push(word);
+    }
+
+    console.log('word', word);
+    console.log('guessedWords', guessedWords);
+  }
+
+</script>
+
+
+</html>
